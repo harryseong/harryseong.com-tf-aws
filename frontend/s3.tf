@@ -1,10 +1,3 @@
-locals {
-  tags = {
-    Terraform   = "true"
-    Environment = "test"
-  }
-}
-
 module "s3_bucket_angular_test" {
   source        = "terraform-aws-modules/s3-bucket/aws"
   create_bucket = true
@@ -31,7 +24,7 @@ module "s3_bucket_angular_test" {
   tags = local.tags
 }
 
-resource "aws_s3_bucket_policy" "s3_bucket_policy_angular_test" {
+resource "aws_s3_bucket_policy" "s3_bucket_policy_webapp" {
   bucket = module.s3_bucket_angular_test.s3_bucket_id
   policy = jsonencode({
     Version = "2012-10-17"
@@ -40,7 +33,9 @@ resource "aws_s3_bucket_policy" "s3_bucket_policy_angular_test" {
       {
         "Sid" : "PublicReadGetObject",
         "Effect" : "Allow",
-        "Principal" : "*",
+        "Principal" : {
+          "AWS" : module.cloudfront.cloudfront_origin_access_identity_iam_arns[0]
+        },
         "Action" : "s3:GetObject",
         "Resource" : "arn:aws:s3:::test.harryseong.com/*"
       }
