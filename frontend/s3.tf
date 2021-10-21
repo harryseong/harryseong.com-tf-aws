@@ -1,7 +1,9 @@
 module "s3_bucket_angular_test" {
   source        = "terraform-aws-modules/s3-bucket/aws"
   create_bucket = true
+  force_destroy = true
   bucket        = "test.harryseong.com"
+  tags          = local.tags
 
   versioning = {
     enabled = true
@@ -20,8 +22,6 @@ module "s3_bucket_angular_test" {
     error_document = "index.html"
     routing_rules  = null
   }
-
-  tags = local.tags
 }
 
 resource "aws_s3_bucket_policy" "s3_bucket_policy_webapp" {

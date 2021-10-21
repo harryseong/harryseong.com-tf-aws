@@ -2,7 +2,7 @@
 # CodePipeline IAM Role and Policies #
 ######################################
 resource "aws_iam_role" "codepipeline_role" {
-  name = "harryseong-codepipeline-role"
+  name = "${var.project_name}-codepipeline-role"
   tags = local.tags
 
   assume_role_policy = <<EOF
@@ -22,7 +22,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codepipeline_policy" {
-  name = "harryseong-codepipeline-policy"
+  name = "${var.project_name}-codepipeline-policy"
   role = aws_iam_role.codepipeline_role.id
 
   policy = <<EOF
@@ -50,7 +50,7 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
       "Action": [
         "codestar-connections:UseConnection"
       ],
-      "Resource": "${aws_codestarconnections_connection.github.arn}"
+      "Resource": "${var.codestarconnections_arn}"
     },
     {
       "Effect": "Allow",
@@ -70,7 +70,7 @@ EOF
 # CodeBuild IAM Role and Policies #
 ###################################
 resource "aws_iam_role" "codebuild_role" {
-  name = "harryseong-codebuild-role"
+  name = "${var.project_name}-codebuild-role"
   tags = local.tags
 
   assume_role_policy = <<EOF
@@ -90,7 +90,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codebuild_policy" {
-  name = "harryseong-codepipeline-policy"
+  name = "${var.project_name}-codepipeline-policy"
   role = aws_iam_role.codebuild_role.name
 
   policy = <<POLICY

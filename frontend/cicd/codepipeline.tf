@@ -1,7 +1,7 @@
 # https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements
 
 resource "aws_codepipeline" "harryseong_test_codepipeline" {
-  name     = "harryseong-test-codepipeline"
+  name     = "${var.project_name}-${var.env}-codepipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
   tags     = local.tags
 
@@ -25,9 +25,9 @@ resource "aws_codepipeline" "harryseong_test_codepipeline" {
       version          = "1"
       output_artifacts = ["source_output"]
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.github.arn
+        ConnectionArn    = var.codestarconnections_arn
         FullRepositoryId = "harryseong/harryseong.com"
-        BranchName       = "test"
+        BranchName       = var.env == "prod" ? "master" : "test"
       }
     }
   }
@@ -45,7 +45,7 @@ resource "aws_codepipeline" "harryseong_test_codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "harryseong-test"
+        ProjectName = aws_codebuild_project.test_codebuild_project.id
       }
     }
   }

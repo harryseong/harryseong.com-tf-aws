@@ -1,9 +1,9 @@
 module "cloudfront" {
   source = "terraform-aws-modules/cloudfront/aws"
 
-  aliases = ["test.harryseong.com"]
+  aliases = [local.webapp_url]
 
-  comment             = "CloudFront for test.harryseong.com Angular webapp."
+  comment             = "CloudFront for ${local.webapp_url} Angular webapp."
   enabled             = true
   is_ipv6_enabled     = true
   price_class         = "PriceClass_100" # "PriceClass_All" for production
@@ -17,7 +17,7 @@ module "cloudfront" {
   }
 
   origin = {
-    "s3-test.harryseong.com" = {
+    "s3-${local.webapp_url}" = {
       domain_name = module.s3_bucket_angular_test.s3_bucket_website_endpoint
       custom_origin_config = {
         http_port              = 80
@@ -29,7 +29,7 @@ module "cloudfront" {
   }
 
   default_cache_behavior = {
-    target_origin_id       = "s3-test.harryseong.com"
+    target_origin_id       = "s3-${local.webapp_url}"
     viewer_protocol_policy = "redirect-to-https"
 
     allowed_methods = ["GET", "HEAD", "OPTIONS"]
@@ -37,7 +37,7 @@ module "cloudfront" {
   }
 
   viewer_certificate = {
-    acm_certificate_arn      = "arn:aws:acm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:certificate/1a08456d-4661-4cc2-96df-2d14d023af14"
+    acm_certificate_arn      = module.acm_certificate.acm_certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }

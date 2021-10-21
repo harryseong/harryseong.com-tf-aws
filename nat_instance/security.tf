@@ -6,7 +6,7 @@ resource "aws_security_group" "nat_instance_sg" {
   tags = {
     Name        = "nat-instance-sg"
     Terraform   = "true"
-    Environment = "prod"
+    Environment = var.env
   }
 }
 

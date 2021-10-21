@@ -1,6 +1,6 @@
 locals {
   tags = {
     Terraform   = "true"
-    Environment = "test"
+    Environment = var.env
   }
 }

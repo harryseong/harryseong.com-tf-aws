@@ -1,10 +1,12 @@
 module "network" {
   source = "./network"
+  env    = "shared"
 }
 
 module "nat_instance" {
   count  = 1
   source = "./nat_instance"
+  env    = "shared"
 
   vpc_id                      = module.network.prod_app_vpc.id
   public_subnets_ids          = module.network.prod_app_vpc.public_subnets_ids
@@ -14,7 +16,22 @@ module "nat_instance" {
   ec2_configs = var.nat_instance_ec2_configs
 }
 
+module "route53_public_hosted_zone" {
+  source = "./route53_public_hosted_zone"
+  env    = "shared"
+}
+
+module "codestarconnections" {
+  source = "./codestarconnections"
+  env    = "shared"
+}
+
 module "frontend" {
   count  = 1
   source = "./frontend"
+  env    = "test"
+
+  project_name            = var.project_name
+  domain_name             = var.domain_name
+  codestarconnections_arn = module.codestarconnections.github_connection_arn
 }

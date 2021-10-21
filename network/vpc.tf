@@ -1,10 +1,3 @@
-locals {
-  tags = {
-    Terraform   = "true"
-    Environment = "prod"
-  }
-}
-
 module "prod_app_vpc" {
   source = "terraform-aws-modules/vpc/aws"
 

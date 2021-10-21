@@ -1,3 +1,6 @@
+project_name = "harryseong"
+domain_name  = "harryseong.com"
+
 nat_instance_ec2_configs = {
   ami_id        = "ami-070801f9b4d12d5dc"
   instance_type = "t2.micro"
