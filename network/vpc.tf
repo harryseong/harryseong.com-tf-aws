@@ -1,15 +1,14 @@
 module "prod_app_vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "prod-app-vpc"
-  cidr = "10.0.0.0/16"
+  name               = var.vpc_configs.name
+  cidr               = var.vpc_configs.cidr
+  enable_nat_gateway = var.vpc_configs.enable_nat_gateway
+  enable_vpn_gateway = var.vpc_configs.enable_vpn_gateway
 
-  azs             = ["${data.aws_region.current.name}a"]
-  private_subnets = ["10.0.0.0/24"]
-  public_subnets  = ["10.0.1.0/24"]
-
-  enable_nat_gateway = false
-  enable_vpn_gateway = false
+  azs             = [for az in var.subnet_configs.azs : format("%s%s", data.aws_region.current.name, az)]
+  private_subnets = var.subnet_configs.private_subnet_cidrs
+  public_subnets  = var.subnet_configs.public_subnet_cidrs
 
   tags = local.tags
 }

@@ -1,11 +1,11 @@
 resource "aws_iam_instance_profile" "nat_instance_profile" {
-  name = "nat-instance-profile"
+  name = "nat-instance-profile-${data.aws_region.current.name}"
   role = aws_iam_role.nat_instance_iam_role.name
   tags = local.tags
 }
 
 resource "aws_iam_role" "nat_instance_iam_role" {
-  name = "nat-instance-profile"
+  name = "nat-instance-profile-${data.aws_region.current.name}"
   path = "/"
   tags = local.tags
 

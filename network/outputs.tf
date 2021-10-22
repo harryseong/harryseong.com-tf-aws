@@ -11,6 +11,5 @@ output "prod_app_vpc" {
       subnet_ids         = module.prod_app_vpc.public_subnets
       subnet_cidr_blocks = module.prod_app_vpc.public_subnets_cidr_blocks
     }
-    private_route_table_ids = module.prod_app_vpc.private_route_table_ids
   }
 }

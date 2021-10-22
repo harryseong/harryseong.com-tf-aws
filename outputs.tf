@@ -6,6 +6,7 @@ output "prod_app_vpc" {
 output "public_hosted_zone_details" {
   value = {
     zone_id      = module.route53_public_hosted_zone.zone_id
+    zone_name    = module.route53_public_hosted_zone.zone_name
     name_servers = module.route53_public_hosted_zone.name_servers
   }
 }

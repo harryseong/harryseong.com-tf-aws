@@ -19,7 +19,7 @@ module "nat_instance" {
   vpc_security_group_ids = [aws_security_group.nat_instance_sg.id]
   subnet_id              = var.public_subnets_ids[count.index % length(var.public_subnets_ids)]
 
-  user_data = file("./nat_instance/bootstrap.sh")
+  user_data = file("./network/nat_instance/bootstrap.sh")
 
   tags = {
     Name        = "nat-instance-${count.index + 1}"

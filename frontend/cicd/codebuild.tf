@@ -1,4 +1,4 @@
-resource "aws_codebuild_project" "test_codebuild_project" {
+resource "aws_codebuild_project" "codebuild_project" {
   name           = "${var.project_name}-${var.env}"
   description    = "CodeBuild project for ${var.webapp_url}."
   build_timeout  = "15"
@@ -24,6 +24,6 @@ resource "aws_codebuild_project" "test_codebuild_project" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("./frontend/cicd/buildspec.yaml")
+    buildspec = file("./frontend/cicd/buildspec-${var.env}.yaml")
   }
 }
