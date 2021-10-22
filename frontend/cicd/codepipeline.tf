@@ -50,6 +50,24 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
+  # Manual "Approve" stage only for prod CodePipeline.
+  dynamic "stage" {
+    for_each = toset(var.env == "prod" ? [1] : [])
+
+    content {
+      name = "Approve"
+
+      action {
+        name     = "Approval"
+        category = "Approval"
+        owner    = "AWS"
+        provider = "Manual"
+        version  = "1"
+      }
+    }
+  }
+
+
   stage {
     name = "Deploy"
 
