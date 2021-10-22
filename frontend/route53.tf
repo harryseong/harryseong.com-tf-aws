@@ -9,7 +9,6 @@ module "route53_record_cloudfront" {
     {
       name = local.webapp_prefix
       type = "A"
-
       alias = {
         name                   = module.cloudfront.cloudfront_distribution_domain_name
         zone_id                = module.cloudfront.cloudfront_distribution_hosted_zone_id

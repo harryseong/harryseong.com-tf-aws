@@ -1,3 +1,7 @@
 output "zone_id" {
-  value = "Z0149004142QD55ZYA8IM" # TODO: Update with reference from TF-generated PHZ.
+  value = module.route53_public_hosted_zone.route53_zone_zone_id[var.domain_name]
+}
+
+output "name_servers" {
+  value = module.route53_public_hosted_zone.route53_zone_name_servers[var.domain_name]
 }

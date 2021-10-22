@@ -9,8 +9,8 @@ module "nat_instance" {
   env    = "shared"
 
   vpc_id                      = module.network.prod_app_vpc.id
-  public_subnets_ids          = module.network.prod_app_vpc.public_subnets_ids
-  private_subnets_cidr_blocks = module.network.prod_app_vpc.private_subnets_cidr_blocks
+  public_subnets_ids          = module.network.prod_app_vpc.public_subnets.subnet_ids
+  private_subnets_cidr_blocks = module.network.prod_app_vpc.private_subnets.subnet_cidr_blocks
   private_route_table_ids     = module.network.prod_app_vpc.private_route_table_ids
 
   ec2_configs = var.nat_instance_ec2_configs
@@ -19,6 +19,8 @@ module "nat_instance" {
 module "route53_public_hosted_zone" {
   source = "./route53_public_hosted_zone"
   env    = "shared"
+
+  domain_name = var.domain_name
 }
 
 module "codestarconnections" {
