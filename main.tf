@@ -29,3 +29,11 @@ module "frontend" {
   public_hosted_zone_id   = module.route53_public_hosted_zone.zone_id
   codestarconnections_arn = module.codestarconnections.github_connection_arn
 }
+
+module "backend" {
+  source   = "./backend"
+  env_list = ["test", "prod"]
+
+  project_name = var.project_name
+  domain_name  = var.domain_name
+}
