@@ -2,7 +2,7 @@
 # CodePipeline IAM Role and Policies #
 ######################################
 resource "aws_iam_role" "codepipeline_role" {
-  name = "${var.project_name}-codepipeline-role"
+  name = "${var.project_name}-codepipeline-role-${data.aws_region.current.name}"
   tags = local.tags
 
   assume_role_policy = <<EOF
@@ -22,7 +22,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codepipeline_policy" {
-  name = "${var.project_name}-codepipeline-policy"
+  name = "${var.project_name}-codepipeline-policy-${data.aws_region.current.name}"
   role = aws_iam_role.codepipeline_role.id
 
   policy = <<EOF
@@ -70,7 +70,7 @@ EOF
 # CodeBuild IAM Role and Policies #
 ###################################
 resource "aws_iam_role" "codebuild_role" {
-  name = "${var.project_name}-codebuild-role"
+  name = "${var.project_name}-codebuild-role-${data.aws_region.current.name}"
   tags = local.tags
 
   assume_role_policy = <<EOF
@@ -90,7 +90,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codebuild_policy" {
-  name = "${var.project_name}-codepipeline-policy"
+  name = "${var.project_name}-codepipeline-policy-${data.aws_region.current.name}"
   role = aws_iam_role.codebuild_role.name
 
   policy = <<POLICY

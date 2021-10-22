@@ -1,8 +1,8 @@
-module "s3_bucket_angular_test" {
+module "webapp_s3_bucket" {
   source        = "terraform-aws-modules/s3-bucket/aws"
   create_bucket = true
   force_destroy = true
-  bucket        = "test.harryseong.com"
+  bucket        = local.webapp_url
   tags          = local.tags
 
   versioning = {
@@ -24,20 +24,18 @@ module "s3_bucket_angular_test" {
   }
 }
 
-resource "aws_s3_bucket_policy" "s3_bucket_policy_webapp" {
-  bucket = module.s3_bucket_angular_test.s3_bucket_id
+resource "aws_s3_bucket_policy" "webapp_s3_bucket_policy" {
+  bucket = module.webapp_s3_bucket.s3_bucket_id
   policy = jsonencode({
     Version = "2012-10-17"
-    Id      = "s3-bucket-policy-test.harryseong.com"
+    Id      = "s3-bucket-policy-${local.webapp_url}"
     Statement = [
       {
         "Sid" : "PublicReadGetObject",
         "Effect" : "Allow",
-        "Principal" : {
-          "AWS" : module.cloudfront.cloudfront_origin_access_identity_iam_arns[0]
-        },
+        "Principal" : "*",
         "Action" : "s3:GetObject",
-        "Resource" : "arn:aws:s3:::test.harryseong.com/*"
+        "Resource" : "${module.webapp_s3_bucket.s3_bucket_arn}/*"
       }
     ]
   })

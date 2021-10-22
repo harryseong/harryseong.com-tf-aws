@@ -13,6 +13,11 @@ variable "domain_name" {
   type        = string
 }
 
+variable "public_hosted_zone_id" {
+  description = "Route53 public hosted zone ID."
+  type        = string
+}
+
 variable "codestarconnections_arn" {
   description = "CodeStarConnections connection ARN."
   type        = string

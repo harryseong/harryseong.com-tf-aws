@@ -1,24 +1,21 @@
 module "cloudfront" {
-  source = "terraform-aws-modules/cloudfront/aws"
+  source              = "terraform-aws-modules/cloudfront/aws"
+  version             = "2.8.0"
+  create_distribution = true
 
-  aliases = [local.webapp_url]
-
-  comment             = "CloudFront for ${local.webapp_url} Angular webapp."
+  comment             = "CloudFront for ${local.webapp_url} webapp."
+  aliases             = [local.webapp_url]
   enabled             = true
   is_ipv6_enabled     = true
-  price_class         = "PriceClass_100" # "PriceClass_All" for production
+  price_class         = var.env == "prod" ? "PriceClass_All" : "PriceClass_100" # N. America and Europe only for non-prod.
   retain_on_delete    = false
   wait_for_deployment = false
+  default_root_object = "index.html"
   tags                = local.tags
-
-  create_origin_access_identity = true
-  origin_access_identities = {
-    s3_bucket_oai = "CloudFront OAI for Angular webapp S3 bucket."
-  }
 
   origin = {
     "s3-${local.webapp_url}" = {
-      domain_name = module.s3_bucket_angular_test.s3_bucket_website_endpoint
+      domain_name = module.webapp_s3_bucket.s3_bucket_website_endpoint
       custom_origin_config = {
         http_port              = 80
         https_port             = 443
@@ -32,8 +29,7 @@ module "cloudfront" {
     target_origin_id       = "s3-${local.webapp_url}"
     viewer_protocol_policy = "redirect-to-https"
 
-    allowed_methods = ["GET", "HEAD", "OPTIONS"]
-    # cache_policy_id = "caching-disabled"
+    allowed_methods = ["GET", "HEAD"]
   }
 
   viewer_certificate = {
