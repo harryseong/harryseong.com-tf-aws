@@ -1,7 +1,7 @@
 module "route53_record_cloudfront" {
   source  = "terraform-aws-modules/route53/aws//modules/records"
   version = "2.3.0"
-  create  = true # Set to "false" on first run. Set to "true" after CloudFront distribution has been created. 
+  create  = true # (1) Set to "false" on first run. (2) Set to "true" after CloudFront distribution has been created. 
 
   private_zone = false
   zone_id      = var.public_hosted_zone_id
