@@ -5,7 +5,7 @@ module "route53_record_cloudfront" {
 
   private_zone = false
   zone_id      = var.public_hosted_zone_id
-  records = [
+  records = concat([
     {
       name = local.webapp_prefix
       type = "A"
@@ -15,5 +15,15 @@ module "route53_record_cloudfront" {
         evaluate_target_health = false
       }
     }
-  ]
+    ],
+    # If prod, add prefixless domain name Route53 record for webapp.
+    var.env == "prod" ? [{
+      name = ""
+      type = "A"
+      alias = {
+        name                   = module.cloudfront.cloudfront_distribution_domain_name
+        zone_id                = module.cloudfront.cloudfront_distribution_hosted_zone_id
+        evaluate_target_health = false
+      }
+  }] : [])
 }
