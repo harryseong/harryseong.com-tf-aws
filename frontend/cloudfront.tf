@@ -4,7 +4,7 @@ module "cloudfront" {
   create_distribution = true
 
   comment             = "CloudFront for ${local.webapp_url} webapp."
-  aliases             = [local.webapp_url]
+  aliases             = var.env == "prod" ? [local.webapp_url, format("%s.%s", "www", local.webapp_url)] : [local.webapp_url]
   enabled             = true
   is_ipv6_enabled     = true
   price_class         = var.env == "prod" ? "PriceClass_All" : "PriceClass_100"

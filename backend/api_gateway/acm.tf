@@ -3,8 +3,8 @@ module "acm_certificate" {
   version            = "3.2.0"
   create_certificate = true
 
-  domain_name               = local.webapp_url
-  subject_alternative_names = var.env == "prod" ? [format("%s.%s", "www", var.domain_name)] : []
+  domain_name               = local.api_url
+  subject_alternative_names = []
 
   validate_certificate               = true
   validation_allow_overwrite_records = true

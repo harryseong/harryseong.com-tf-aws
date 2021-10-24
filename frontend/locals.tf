@@ -4,6 +4,6 @@ locals {
     Environment = var.env
   }
 
-  webapp_prefix = var.env == "prod" ? "www" : var.env
-  webapp_url    = format("%s.%s", local.webapp_prefix, var.domain_name)
+  webapp_prefix = var.env == "prod" ? "" : var.env
+  webapp_url    = var.env == "prod" ? var.domain_name : format("%s.%s", local.webapp_prefix, var.domain_name)
 }

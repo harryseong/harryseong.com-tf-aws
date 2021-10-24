@@ -16,14 +16,15 @@ module "route53_record_cloudfront" {
       }
     }
     ],
-    # If prod, add prefixless domain name Route53 record for webapp.
+    # If prod, add Route53 CNAME record for "www" to domain.
     var.env == "prod" ? [{
-      name = ""
+      name = "www"
       type = "A"
       alias = {
-        name                   = module.cloudfront.cloudfront_distribution_domain_name
-        zone_id                = module.cloudfront.cloudfront_distribution_hosted_zone_id
+        name                   = local.webapp_url
+        zone_id                = var.public_hosted_zone_id
         evaluate_target_health = false
       }
-  }] : [])
+    }] : []
+  )
 }

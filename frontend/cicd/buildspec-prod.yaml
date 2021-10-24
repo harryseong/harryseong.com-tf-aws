@@ -3,7 +3,7 @@ version: 0.2
 env:
     variables:
         CACHE_CONTROL: "86400"
-        S3_BUCKET: "www.harryseong.com"
+        S3_BUCKET: "harryseong.com"
         BUILD_FOLDER: "dist"
 phases:
   install:
