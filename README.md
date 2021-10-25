@@ -11,6 +11,7 @@
     - Note: Private subnet's route table route to NAT instance will be created on second "terraform apply" after NAT instance status is "Running".
 6. [AWS Management Console: Developer Tools] Complete CodeStarConnection authentication to GitHub.
     - (AWS Developer Tools > Settings > Connections)
-7. [Terraform Code] Set all CloudFront Route53 record module "create" attribute to "true" for 2nd run of "terraform apply".
+7. [AWS Management Console: Systems Manager] Update SSM Parameter Store SecureString parameter default values.
+8. [Terraform Code] Set all CloudFront Route53 record module "create" attribute to "true" for 2nd run of "terraform apply".
 
-8. Run "terraform apply".
+9. Run "terraform apply".

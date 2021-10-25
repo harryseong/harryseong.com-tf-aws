@@ -34,7 +34,9 @@ module "backend" {
   source   = "./backend"
   env_list = ["test", "prod"]
 
-  project_name          = var.project_name
-  domain_name           = var.domain_name
-  public_hosted_zone_id = module.route53_public_hosted_zone.zone_id
+  project_name                  = var.project_name
+  domain_name                   = var.domain_name
+  public_hosted_zone_id         = module.route53_public_hosted_zone.zone_id
+  vpc_default_security_group_id = module.network.prod_app_vpc.default_security_group_id
+  vpc_private_subnet_ids        = module.network.prod_app_vpc.private_subnets.subnet_ids
 }

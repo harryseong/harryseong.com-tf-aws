@@ -17,3 +17,13 @@ variable "public_hosted_zone_id" {
   description = "Route53 public hosted zone ID."
   type        = string
 }
+
+variable "vpc_default_security_group_id" {
+  description = "VPC's default security group ID."
+  type        = string
+}
+
+variable "vpc_private_subnet_ids" {
+  description = "VPC's private subnet IDs."
+  type        = list(string)
+}

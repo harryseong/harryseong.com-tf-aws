@@ -20,21 +20,23 @@ module "lambda_s3_bucket" {
 }
 
 resource "aws_s3_bucket_object" "lambda_layer_s3_object" {
-  for_each = local.layers
+  for_each = toset(local.layers)
 
-  bucket = module.lambda_s3_bucket.s3_bucket_id
-  key    = "layers/${each.key}.${local.output_type}"
-  source = data.archive_file.lambda_layer[each.key].output_path
-  etag   = filemd5(data.archive_file.lambda_layer[each.key].output_path)
-  tags   = local.tags
+  bucket      = module.lambda_s3_bucket.s3_bucket_id
+  key         = "layers/${each.key}.${local.output_type}"
+  source      = data.archive_file.lambda_layer[each.key].output_path
+  source_hash = filemd5(data.archive_file.lambda_layer[each.key].output_path)
+  etag        = filemd5(data.archive_file.lambda_layer[each.key].output_path)
+  tags        = local.tags
 }
 
 resource "aws_s3_bucket_object" "lambda_function_s3_object" {
-  for_each = local.functions
+  for_each = toset(local.functions)
 
-  bucket = module.lambda_s3_bucket.s3_bucket_id
-  key    = "functions/${each.key}.${local.output_type}"
-  source = data.archive_file.lambda_function[each.key].output_path
-  etag   = filemd5(data.archive_file.lambda_function[each.key].output_path)
-  tags   = local.tags
+  bucket      = module.lambda_s3_bucket.s3_bucket_id
+  key         = "functions/${each.key}.${local.output_type}"
+  source      = data.archive_file.lambda_function[each.key].output_path
+  source_hash = filemd5(data.archive_file.lambda_function[each.key].output_path)
+  etag        = filemd5(data.archive_file.lambda_function[each.key].output_path)
+  tags        = local.tags
 }

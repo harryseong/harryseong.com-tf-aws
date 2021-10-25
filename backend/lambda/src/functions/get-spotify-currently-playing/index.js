@@ -5,7 +5,12 @@ const ssmAccess = require('/opt/nodejs/ssm-access');
 
 exports.handler = async (event, context) => {
     // Fetch Spotify parameters from SSM parameter store.
-    const [ID, SECRET, REFRESH_TOKEN] = ['/spotify/client_id', '/spotify/client_secret', '/spotify/client_refresh_token'];
+    const [ID, SECRET, REFRESH_TOKEN] = [
+        process.env.SSM_PARAM_SPOTIFY_CLIENT_ID,
+        process.env.SSM_PARAM_SPOTIFY_CLIENT_SECRET,
+        process.env.SSM_PARAM_SPOTIFY_CLIENT_REFRESH_TOKEN
+    ];
+
     let spotifyClientId, spotifyClientSecret, spotifyClientRefreshToken;
     await ssmAccess.getParameters([ID, SECRET, REFRESH_TOKEN], true)
         .then(params => {

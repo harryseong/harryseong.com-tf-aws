@@ -8,7 +8,7 @@ exports.handler = async (event) => {
     const docClient = new AWS.DynamoDB.DocumentClient();
 
     const params = {
-        TableName: 'bucket_list',
+        TableName: process.env.DYNAMODB_TABLE,
     };
 
     try {

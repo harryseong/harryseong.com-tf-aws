@@ -4,7 +4,7 @@ const ssmAccess = require('/opt/nodejs/ssm-access');
 
 exports.handler = async (event, context) => {
     // Fetch Open Weather Map parameter from SSM parameter store.
-    const appid = await ssmAccess.getParameter('/open_weather_map/app_id', true)
+    const appid = await ssmAccess.getParameter(process.env.SSM_PARAM_OPEN_WEATHER_MAP_APP_ID, true)
         .then(param => { return param.Value });
     const units = event.units;
     const zip = event.zip;

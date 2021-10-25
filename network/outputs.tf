@@ -11,5 +11,6 @@ output "prod_app_vpc" {
       subnet_ids         = module.prod_app_vpc.public_subnets
       subnet_cidr_blocks = module.prod_app_vpc.public_subnets_cidr_blocks
     }
+    default_security_group_id = module.prod_app_vpc.default_security_group_id
   }
 }
