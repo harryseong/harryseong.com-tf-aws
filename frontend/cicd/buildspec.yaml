@@ -1,10 +1,5 @@
 version: 0.2
 
-env:
-    variables:
-        CACHE_CONTROL: "86400"
-        S3_BUCKET: "test.harryseong.com"
-        BUILD_FOLDER: "dist"
 phases:
   install:
     runtime-versions:
@@ -16,7 +11,7 @@ phases:
   build:
     commands:
         - echo Build started 
-        - ng build --configuration=test
+        - ng build --configuration=$ENVIRONMENT
 artifacts:
     files:
         - '**/*'

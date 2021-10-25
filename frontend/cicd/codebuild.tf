@@ -20,10 +20,15 @@ resource "aws_codebuild_project" "codebuild_project" {
     image                       = "aws/codebuild/standard:5.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
+
+    environment_variable {
+      name  = "ENVIRONMENT"
+      value = var.env
+    }
   }
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("./frontend/cicd/buildspec-${var.env}.yaml")
+    buildspec = file("./frontend/cicd/buildspec.yaml")
   }
 }
