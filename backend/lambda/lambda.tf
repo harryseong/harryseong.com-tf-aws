@@ -1,10 +1,10 @@
 module "lambda_layer" {
-  for_each     = toset(local.layers)
+  for_each     = toset(keys(local.layer-configs))
   source       = "terraform-aws-modules/lambda/aws"
   create_layer = true
 
   layer_name          = each.key
-  description         = local.layers-configs[each.key].description
+  description         = local.layer-configs[each.key].description
   compatible_runtimes = ["nodejs14.x"]
 
   create_package = false
@@ -17,7 +17,7 @@ module "lambda_layer" {
 }
 
 module "lambda_function" {
-  for_each        = toset(local.functions)
+  for_each        = toset(keys(local.function-configs))
   source          = "terraform-aws-modules/lambda/aws"
   create_function = true
   publish         = true
@@ -31,20 +31,58 @@ module "lambda_function" {
 
   # Lambda function configs:
   function_name          = each.key
-  description            = local.functions-configs[each.key].description
+  description            = local.function-configs[each.key].description
   handler                = "index.handler"
   runtime                = "nodejs14.x"
-  environment_variables  = local.functions-configs[each.key].environment_variables
-  layers                 = [for layer_name in local.functions-configs[each.key].layers : module.lambda_layer[layer_name].lambda_layer_arn]
-  vpc_subnet_ids         = local.functions-configs[each.key].vpc_subnet_ids
-  vpc_security_group_ids = local.functions-configs[each.key].vpc_security_group_ids
+  environment_variables  = local.function-configs[each.key].environment_variables
+  layers                 = [for layer_name in local.function-configs[each.key].layers : module.lambda_layer[layer_name].lambda_layer_arn]
+  vpc_subnet_ids         = local.function-configs[each.key].vpc_subnet_ids
+  vpc_security_group_ids = local.function-configs[each.key].vpc_security_group_ids
 
   # Lambda function permissions:
   create_role           = true
   attach_network_policy = true
   attach_policies       = true
-  policies              = local.functions-configs[each.key].policies
-  number_of_policies    = length(local.functions-configs[each.key].policies)
+  policies              = local.function-configs[each.key].policies
+  number_of_policies    = length(local.function-configs[each.key].policies)
 
   tags = local.tags
+}
+
+module "lambda_function_alias_dev" {
+  for_each = toset(keys(local.function-configs))
+  source   = "terraform-aws-modules/lambda/aws//modules/alias"
+  version  = "2.23.0"
+  create   = true
+
+  name          = "dev"
+  description   = "Lambda function alias for dev testing."
+  refresh_alias = true
+  function_name = module.lambda_function[each.key].lambda_function_name
+}
+
+module "lambda_function_alias_test" {
+  for_each = toset(keys(local.function-configs))
+  source   = "terraform-aws-modules/lambda/aws//modules/alias"
+  version  = "2.23.0"
+  create   = true
+
+  name          = "test"
+  description   = "Lambda function alias for test environment."
+  refresh_alias = true
+  function_name = module.lambda_function[each.key].lambda_function_name
+  # function_version = local.function-configs[each.key].version.test
+}
+
+module "lambda_function_alias_prod" {
+  for_each = toset(keys(local.function-configs))
+  source   = "terraform-aws-modules/lambda/aws//modules/alias"
+  version  = "2.23.0"
+  create   = true
+
+  name             = "prod"
+  description      = "Lambda function alias for prod environment."
+  refresh_alias    = false
+  function_name    = module.lambda_function[each.key].lambda_function_name
+  function_version = local.function-configs[each.key].version.prod
 }

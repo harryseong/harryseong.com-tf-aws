@@ -3,7 +3,7 @@ data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 data "archive_file" "lambda_layer" {
-  for_each = toset(local.layers)
+  for_each = toset(keys(local.layer-configs))
 
   type        = local.output_type
   source_dir  = "${path.module}/src/layers/${each.key}"
@@ -11,7 +11,7 @@ data "archive_file" "lambda_layer" {
 }
 
 data "archive_file" "lambda_function" {
-  for_each = toset(local.functions)
+  for_each = toset(keys(local.function-configs))
 
   type        = local.output_type
   source_dir  = "${path.module}/src/functions/${each.key}"

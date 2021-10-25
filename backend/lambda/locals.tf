@@ -6,24 +6,12 @@ locals {
   api_prefix = "api"
   api_url    = format("%s.%s", local.api_prefix, var.domain_name)
 
-  layers = [
-    "ssm-access",
-    "web-request"
-  ]
-
-  layers-configs = {
+  layer-configs = {
     ssm-access  = { description = "For fetching SSM parameter store values." }
     web-request = { description = "For making external API calls." }
   }
 
-  functions = [
-    "get-bucket-list-items",
-    "get-places",
-    "get-spotify-currently-playing",
-    "get-weather"
-  ]
-
-  functions-configs = {
+  function-configs = {
     get-bucket-list-items = {
       description = "Fetches bucket list items from DynamoDB."
       environment_variables = {
@@ -33,6 +21,11 @@ locals {
       vpc_subnet_ids         = []
       vpc_security_group_ids = []
       policies               = [aws_iam_policy.lambda_iam_policy_dynamodb.arn]
+      version = {
+        dev  = 2
+        test = 2
+        prod = 2
+      }
     }
 
     get-places = {
@@ -44,6 +37,11 @@ locals {
       vpc_subnet_ids         = []
       vpc_security_group_ids = []
       policies               = [aws_iam_policy.lambda_iam_policy_dynamodb.arn]
+      version = {
+        dev  = 2
+        test = 2
+        prod = 2
+      }
     }
 
     get-spotify-currently-playing = {
@@ -59,6 +57,11 @@ locals {
       vpc_subnet_ids         = var.vpc_private_subnet_ids
       vpc_security_group_ids = [var.vpc_default_security_group_id]
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
+      version = {
+        dev  = 2
+        test = 2
+        prod = 2
+      }
     }
 
     get-weather = {
@@ -71,6 +74,11 @@ locals {
       vpc_subnet_ids         = var.vpc_private_subnet_ids
       vpc_security_group_ids = [var.vpc_default_security_group_id]
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
+      version = {
+        dev  = 2
+        test = 2
+        prod = 2
+      }
     }
   }
 

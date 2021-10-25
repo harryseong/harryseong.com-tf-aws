@@ -20,7 +20,7 @@ module "lambda_s3_bucket" {
 }
 
 resource "aws_s3_bucket_object" "lambda_layer_s3_object" {
-  for_each = toset(local.layers)
+  for_each = toset(keys(local.layer-configs))
 
   bucket      = module.lambda_s3_bucket.s3_bucket_id
   key         = "layers/${each.key}.${local.output_type}"
@@ -31,7 +31,7 @@ resource "aws_s3_bucket_object" "lambda_layer_s3_object" {
 }
 
 resource "aws_s3_bucket_object" "lambda_function_s3_object" {
-  for_each = toset(local.functions)
+  for_each = toset(keys(local.function-configs))
 
   bucket      = module.lambda_s3_bucket.s3_bucket_id
   key         = "functions/${each.key}.${local.output_type}"
