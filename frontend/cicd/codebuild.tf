@@ -25,10 +25,15 @@ resource "aws_codebuild_project" "codebuild_project" {
       name  = "ENVIRONMENT"
       value = var.env
     }
+
+    environment_variable {
+      name  = "ENVIRONMENT_FILE"
+      value = var.env == "dev" ? "environment.ts" : format("environment.%s.ts", var.env)
+    }
   }
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("./frontend/cicd/buildspec.yaml")
+    buildspec = file("${path.module}/src/buildspec.yaml")
   }
 }

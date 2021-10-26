@@ -117,6 +117,22 @@ resource "aws_iam_role_policy" "codebuild_policy" {
         "${module.codepipeline_artifacts_s3_bucket.s3_bucket_arn}",
         "${module.codepipeline_artifacts_s3_bucket.s3_bucket_arn}/*"
       ]
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "kms:Decrypt"
+        ],
+        "Resource": "arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "ssm:Describe*",
+            "ssm:Get*",
+            "ssm:List*"
+        ],
+        "Resource": "*"
     }
   ]
 }

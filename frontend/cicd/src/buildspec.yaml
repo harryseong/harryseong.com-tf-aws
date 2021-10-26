@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+        nodejs: 14
+    commands:
+        - echo Installing source NPM dependencies...
+        - npm install
+        - npm install -g @angular/cli
+        - echo Finished installing source NPM dependencies.
+  pre_build:
+    commands:
+        - echo Fetching MapBox access token from SSM...
+        - MAPBOX_ACCESS_TOKEN=$(aws ssm get-parameter --name "/harryseong.com/angular/$ENVIRONMENT/mapbox-access-token" --with-decryption --query "Parameter.Value" --output text)
+        - echo Fetching AWS API key from SSM...
+        - AWS_API_KEY=$(aws ssm get-parameter --name "/harryseong.com/angular/$ENVIRONMENT/aws-api-key" --with-decryption --query "Parameter.Value" --output text)
+        - echo updating "$ENVIRONMENT_FILE" file with proper environment values...
+        - sed -i "s/MAPBOX_ACCESS_TOKEN/$MAPBOX_ACCESS_TOKEN/g" "src/environments/$ENVIRONMENT_FILE"
+        - sed -i "s/AWS_API_KEY/$AWS_API_KEY/g" "src/environments/$ENVIRONMENT_FILE"
+  build:
+    commands:
+        - echo Build started for environment...
+        - ng build --configuration=$ENVIRONMENT
+        - echo Finished build.        
+artifacts:
+    files:
+        - '**/*'
+    base-directory: 'dist/harryseong'
