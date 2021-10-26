@@ -17,6 +17,7 @@ resource "aws_codepipeline" "codepipeline" {
 
   stage {
     name = "Source"
+
     action {
       name             = "Source"
       category         = "Source"
@@ -26,8 +27,9 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["source_output"]
       configuration = {
         ConnectionArn    = var.codestarconnections_arn
-        FullRepositoryId = "harryseong/${var.project_name}"
+        FullRepositoryId = "harryseong/${var.domain_name}"
         BranchName       = var.env == "prod" ? "main" : var.env
+        DetectChanges    = true
       }
     }
   }
