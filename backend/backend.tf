@@ -15,3 +15,7 @@ module "lambda" {
   vpc_default_security_group_id = var.vpc_default_security_group_id
   vpc_private_subnet_ids        = var.vpc_private_subnet_ids
 }
+
+module "dynamodb" {
+  source = "./dynamodb"
+}
