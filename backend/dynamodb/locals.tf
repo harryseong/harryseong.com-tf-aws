@@ -1,7 +1,7 @@
 locals {
   tags = {
     Terraform   = "true"
-    Environment = "shared"
+    Environment = var.env
   }
 
   dynamodb_table_configs = {

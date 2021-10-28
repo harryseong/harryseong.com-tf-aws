@@ -1,6 +1,6 @@
-variable "env_list" {
-  description = "List of environments. Ex: ['dev', 'test', 'prod']"
-  type        = list(string)
+variable "env" {
+  description = "Environment. Values: ['api', 'dev', 'test', 'prod']"
+  type        = string
 }
 
 variable "project_name" {

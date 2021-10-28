@@ -1,5 +1,6 @@
 module "api_gateway" {
   source = "./api_gateway"
+  env    = "api"
 
   project_name          = var.project_name
   domain_name           = var.domain_name
@@ -7,8 +8,8 @@ module "api_gateway" {
 }
 
 module "lambda" {
-  source   = "./lambda"
-  env_list = var.env_list
+  source = "./lambda"
+  env    = "api"
 
   project_name                  = var.project_name
   domain_name                   = var.domain_name
@@ -18,4 +19,12 @@ module "lambda" {
 
 module "dynamodb" {
   source = "./dynamodb"
+  env    = "shared"
+}
+
+module "cognito" {
+  source = "./cognito"
+  env    = "shared"
+
+  domain_name = var.domain_name
 }

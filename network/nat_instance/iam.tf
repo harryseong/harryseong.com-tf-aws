@@ -5,9 +5,10 @@ resource "aws_iam_instance_profile" "nat_instance_profile" {
 }
 
 resource "aws_iam_role" "nat_instance_iam_role" {
-  name = "nat-instance-profile-${data.aws_region.current.name}"
-  path = "/"
-  tags = local.tags
+  name        = "nat-instance-profile-${data.aws_region.current.name}"
+  description = "NAT EC2 instance profile to perform required EC2 actions."
+  path        = "/"
+  tags        = local.tags
 
   assume_role_policy = <<EOF
 {
@@ -27,7 +28,7 @@ EOF
 
 resource "aws_iam_policy" "nat_instance_iam_policy_ec2" {
   name        = "nat-instance-ec2-action-${data.aws_region.current.name}"
-  description = "Policy to allow NAT instances to perform required EC2 actions."
+  description = "NAT EC2 instance policy to perform required EC2 actions."
   tags        = local.tags
 
   policy = <<EOF

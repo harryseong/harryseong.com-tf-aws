@@ -31,8 +31,7 @@ module "frontend" {
 }
 
 module "backend" {
-  source   = "./backend"
-  env_list = ["test", "prod"]
+  source = "./backend"
 
   project_name                  = var.project_name
   domain_name                   = var.domain_name

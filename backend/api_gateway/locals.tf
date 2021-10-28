@@ -1,7 +1,7 @@
 locals {
   tags = {
     Terraform   = "true"
-    Environment = "api"
+    Environment = var.env
   }
 
   api_prefix = "api"
