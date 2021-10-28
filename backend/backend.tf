@@ -26,5 +26,7 @@ module "cognito" {
   source = "./cognito"
   env    = "shared"
 
-  domain_name = var.domain_name
+  project_name          = var.project_name
+  domain_name           = var.domain_name
+  public_hosted_zone_id = var.public_hosted_zone_id
 }

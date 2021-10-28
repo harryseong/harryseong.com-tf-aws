@@ -8,4 +8,5 @@ module "cicd" {
   webapp_s3_bucket_name   = module.webapp_s3_bucket.s3_bucket_id
   webapp_s3_bucket_arn    = module.webapp_s3_bucket.s3_bucket_arn
   codestarconnections_arn = var.codestarconnections_arn
+  cognito_idp_id          = var.cognito_idp_id
 }

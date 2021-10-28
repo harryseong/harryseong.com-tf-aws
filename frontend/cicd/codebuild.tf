@@ -30,6 +30,11 @@ resource "aws_codebuild_project" "codebuild_project" {
       name  = "ENVIRONMENT_FILE"
       value = var.env == "dev" ? "environment.ts" : format("environment.%s.ts", var.env)
     }
+
+    environment_variable {
+      name  = "COGNITO_IDP_ID"
+      value = var.cognito_idp_id
+    }
   }
 
   source {

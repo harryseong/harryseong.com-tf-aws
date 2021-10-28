@@ -28,6 +28,7 @@ module "frontend" {
   domain_name             = var.domain_name
   public_hosted_zone_id   = module.route53_public_hosted_zone.zone_id
   codestarconnections_arn = module.codestarconnections.github_connection_arn
+  cognito_idp_id          = module.backend.cognito_idp_id
 }
 
 module "backend" {
