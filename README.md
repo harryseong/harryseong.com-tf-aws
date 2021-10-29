@@ -13,5 +13,7 @@
     - (AWS Developer Tools > Settings > Connections)
 7. [AWS Management Console: Systems Manager] Update SSM Parameter Store SecureString parameter default values.
 8. [Terraform Code] Set all CloudFront Route53 record module "create" attribute to "true" for 2nd run of "terraform apply".
+9. [Google Cloud Platform Console] Add to authorized redirect URIs: "https://auth.harryseong.com/oauth2/idpresponse"
+    - (APIs & Services > Credentials > OAuth 2.0 Client IDs > Authorized redirect URIs)
 
-9. Run "terraform apply".
+10. Run "terraform apply".
