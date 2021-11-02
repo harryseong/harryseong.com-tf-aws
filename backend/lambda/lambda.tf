@@ -72,7 +72,6 @@ module "lambda_function_alias_test" {
   description   = "Lambda function alias for test environment."
   refresh_alias = true
   function_name = module.lambda_function[each.key].lambda_function_name
-  # function_version = local.function-configs[each.key].version.test
 }
 
 module "lambda_function_alias_prod" {

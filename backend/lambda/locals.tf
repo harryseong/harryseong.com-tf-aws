@@ -22,9 +22,9 @@ locals {
       vpc_security_group_ids = []
       policies               = [aws_iam_policy.lambda_iam_policy_dynamodb.arn]
       version = {
-        dev  = 2
-        test = 2
-        prod = 2
+        dev  = 3 # Autodeploys to latest Lambda version.
+        test = 3 # Autodeploys to latest Lambda version.
+        prod = 3
       }
     }
 
@@ -38,9 +38,9 @@ locals {
       vpc_security_group_ids = []
       policies               = [aws_iam_policy.lambda_iam_policy_dynamodb.arn]
       version = {
-        dev  = 2
-        test = 2
-        prod = 2
+        dev  = 3 # Autodeploys to latest Lambda version.
+        test = 3 # Autodeploys to latest Lambda version.
+        prod = 3
       }
     }
 
