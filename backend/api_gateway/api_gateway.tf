@@ -9,7 +9,7 @@ module "api_gateway" {
   name                         = local.api_url
   description                  = "API for ${var.domain_name} web application."
   protocol_type                = "HTTP"
-  disable_execute_api_endpoint = false
+  disable_execute_api_endpoint = true
 
   domain_name                 = local.api_url
   domain_name_certificate_arn = module.acm_certificate.acm_certificate_arn
@@ -59,6 +59,15 @@ resource "aws_apigatewayv2_stage" "api_gateway_stage" {
   auto_deploy     = each.key == "prod" ? false : true
   stage_variables = { "lambdaAlias" = each.key }
   tags            = local.tags
+}
+
+resource "aws_apigatewayv2_api_mapping" "api_mapping" {
+  for_each = toset(local.api_gateway_stages)
+
+  api_id          = module.api_gateway.apigatewayv2_api_id
+  domain_name     = module.api_gateway.apigatewayv2_domain_name_id
+  stage           = each.key
+  api_mapping_key = each.key
 }
 
 resource "aws_apigatewayv2_authorizer" "jwt_authorizer" {
