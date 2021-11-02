@@ -17,3 +17,8 @@ variable "public_hosted_zone_id" {
   description = "Route53 public hosted zone ID."
   type        = string
 }
+
+variable "lambda_functions" {
+  description = "Map of lambda function names and ARNs."
+  type        = map(string)
+}

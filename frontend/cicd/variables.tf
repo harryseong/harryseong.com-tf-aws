@@ -32,8 +32,3 @@ variable "codestarconnections_arn" {
   description = "CodeStarConnections connection ARN."
   type        = string
 }
-
-variable "cognito_idp_id" {
-  description = "Cognito identity pool ID."
-  type        = string
-}

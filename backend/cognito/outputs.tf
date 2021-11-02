@@ -1,5 +1,4 @@
-output "cognito_idp_id" {
-  description = "Cognito identity pool ID."
-  #   value       = aws_cognito_identity_pool.main_idp.id
-  value = "CHANGEME"
+output "cognito_user_pool_id" {
+  description = "Cognito user pool ID."
+  value       = aws_cognito_user_pool.main.id
 }

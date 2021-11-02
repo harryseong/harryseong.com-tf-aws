@@ -5,6 +5,7 @@ module "api_gateway" {
   project_name          = var.project_name
   domain_name           = var.domain_name
   public_hosted_zone_id = var.public_hosted_zone_id
+  lambda_functions      = module.lambda.functions
 }
 
 module "lambda" {

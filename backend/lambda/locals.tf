@@ -75,9 +75,9 @@ locals {
       vpc_security_group_ids = [var.vpc_default_security_group_id]
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
       version = {
-        dev  = 2
-        test = 2
-        prod = 2
+        dev  = 3
+        test = 3
+        prod = 3
       }
     }
   }

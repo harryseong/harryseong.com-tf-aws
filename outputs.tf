@@ -11,7 +11,7 @@ output "public_hosted_zone_details" {
   }
 }
 
-output "cognito_idp_id" {
-  description = "Cognito identity pool ID."
-  value       = module.backend.cognito_idp_id
+output "cognito_user_pool_id" {
+  description = "Cognito user pool ID."
+  value       = module.backend.cognito_user_pool_id
 }

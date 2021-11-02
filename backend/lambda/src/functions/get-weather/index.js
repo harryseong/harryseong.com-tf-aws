@@ -6,8 +6,8 @@ exports.handler = async (event, context) => {
     // Fetch Open Weather Map parameter from SSM parameter store.
     const appid = await ssmAccess.getParameter(process.env.SSM_PARAM_OPEN_WEATHER_MAP_APP_ID, true)
         .then(param => { return param.Value });
-    const units = event.units;
-    const zip = event.zip;
+    const units = event.queryStringParameters.units;
+    const zip = event.queryStringParameters.zip;
 
     return await getCurrentWeather(appid, units, zip);
 };
