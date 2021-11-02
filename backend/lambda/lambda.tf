@@ -45,6 +45,7 @@ module "lambda_function" {
   attach_policies       = true
   policies              = local.function-configs[each.key].policies
   number_of_policies    = length(local.function-configs[each.key].policies)
+  role_tags             = local.tags
 
   tags = local.tags
 }
