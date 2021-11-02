@@ -22,3 +22,13 @@ variable "lambda_functions" {
   description = "Map of lambda function names and ARNs."
   type        = map(string)
 }
+
+variable "cognito_user_pool_client_id" {
+  description = "Cognito user pool client ID."
+  type        = string
+}
+
+variable "cognito_user_pool_endpoint" {
+  description = "Cognito user pool endpoint."
+  type        = string
+}

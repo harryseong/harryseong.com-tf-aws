@@ -2,10 +2,12 @@ module "api_gateway" {
   source = "./api_gateway"
   env    = "api"
 
-  project_name          = var.project_name
-  domain_name           = var.domain_name
-  public_hosted_zone_id = var.public_hosted_zone_id
-  lambda_functions      = module.lambda.functions
+  project_name                = var.project_name
+  domain_name                 = var.domain_name
+  public_hosted_zone_id       = var.public_hosted_zone_id
+  lambda_functions            = module.lambda.functions
+  cognito_user_pool_client_id = module.cognito.cognito_user_pool_client_id
+  cognito_user_pool_endpoint  = module.cognito.cognito_user_pool_endpoint
 }
 
 module "lambda" {

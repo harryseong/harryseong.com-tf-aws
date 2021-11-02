@@ -10,8 +10,3 @@ output "public_hosted_zone_details" {
     name_servers = module.route53_public_hosted_zone.name_servers
   }
 }
-
-output "cognito_user_pool_id" {
-  description = "Cognito user pool ID."
-  value       = module.backend.cognito_user_pool_id
-}
