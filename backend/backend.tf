@@ -23,6 +23,8 @@ module "lambda" {
 module "dynamodb" {
   source = "./dynamodb"
   env    = "shared"
+
+  project_name = var.project_name
 }
 
 module "cognito" {

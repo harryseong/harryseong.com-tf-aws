@@ -2,6 +2,7 @@ locals {
   tags = {
     Terraform   = "true"
     Environment = var.env
+    Application = var.project_name
   }
 
   dynamodb_table_configs = {
