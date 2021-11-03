@@ -8,12 +8,12 @@ locals {
   api_prefix = "api"
   api_url    = format("%s.%s", local.api_prefix, var.domain_name)
 
-  layer-configs = {
+  layer_configs = {
     ssm-access  = { description = "For fetching SSM parameter store values." }
     web-request = { description = "For making external API calls." }
   }
 
-  function-configs = {
+  function_configs = {
     get-bucket-list-items = {
       description = "Fetches bucket list items from DynamoDB."
       environment_variables = {

@@ -2,7 +2,7 @@
 # CodePipeline IAM Role and Policies #
 ######################################
 resource "aws_iam_role" "codepipeline_role" {
-  name        = "codepipeline-role-${var.project_name}-${var.env}-${data.aws_region.current.name}"
+  name        = "${var.project_name}-${var.env}-codepipeline-role-${data.aws_region.current.name}"
   description = "CodePipeline role to access S3, CodeBuild, CodeStarConnections."
   tags        = local.tags
 
@@ -23,7 +23,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codepipeline_policy" {
-  name = "codepipeline-policy-${var.project_name}-${var.env}-${data.aws_region.current.name}"
+  name = "${var.project_name}-${var.env}-codepipeline-policy-${data.aws_region.current.name}"
   role = aws_iam_role.codepipeline_role.id
 
   policy = <<EOF
@@ -71,7 +71,7 @@ EOF
 # CodeBuild IAM Role and Policies #
 ###################################
 resource "aws_iam_role" "codebuild_role" {
-  name        = "codebuild-role-${var.project_name}-${var.env}-${data.aws_region.current.name}"
+  name        = "${var.project_name}-${var.env}-codebuild-role-${data.aws_region.current.name}"
   description = "CodeBuild role to access S3, CloudWatch Logs, SSM Param Store, KMS."
   tags        = local.tags
 
@@ -92,7 +92,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codebuild_policy" {
-  name = "codebuild-policy-${var.project_name}-${var.env}-${data.aws_region.current.name}"
+  name = "${var.project_name}-${var.env}-codebuild-policy-${data.aws_region.current.name}"
   role = aws_iam_role.codebuild_role.name
 
   policy = <<POLICY
