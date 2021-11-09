@@ -59,3 +59,9 @@ resource "aws_iam_role_policy_attachment" "nat_instance_iam_policy_ec2_attach" {
   role       = aws_iam_role.nat_instance_iam_role.name
   policy_arn = aws_iam_policy.nat_instance_iam_policy_ec2.arn
 }
+
+resource "aws_iam_role_policy_attachment" "ec2_ssm_iam_policy_ec2_attach" {
+  role       = aws_iam_role.nat_instance_iam_role.name
+  policy_arn = local.ec2_ssm_iam_policy_arn
+}
+
