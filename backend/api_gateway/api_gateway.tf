@@ -17,8 +17,8 @@ module "api_gateway" {
 
   cors_configuration = {
     allow_headers = ["content-type", "x-amz-date", "authorization", "x-api-key", "x-amz-security-token", "x-amz-user-agent"]
-    allow_methods = ["*"]
-    allow_origins = ["*"]
+    allow_methods = ["GET", "OPTIONS"]
+    allow_origins = ["https://test.harryseong.com", "https://harryseong.com", "https://www.harryseong.com", "http://localhost:4200"]
   }
 
   integrations = {
@@ -58,7 +58,11 @@ resource "aws_apigatewayv2_stage" "api_gateway_stage" {
   name            = each.key
   auto_deploy     = each.key == "prod" ? false : true
   stage_variables = { "lambdaAlias" = each.key }
-  tags            = local.tags
+  default_route_settings {
+    throttling_burst_limit = 5
+    throttling_rate_limit  = 10
+  }
+  tags = local.tags
 }
 
 resource "aws_apigatewayv2_api_mapping" "api_mapping" {
@@ -68,6 +72,7 @@ resource "aws_apigatewayv2_api_mapping" "api_mapping" {
   domain_name     = module.api_gateway.apigatewayv2_domain_name_id
   stage           = each.key
   api_mapping_key = each.key
+
 }
 
 resource "aws_apigatewayv2_authorizer" "jwt_authorizer" {
