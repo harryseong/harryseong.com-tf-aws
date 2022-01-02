@@ -38,6 +38,7 @@ module "lambda_function" {
   layers                 = [for layer_name in local.function_configs[each.key].layers : module.lambda_layer[layer_name].lambda_layer_arn]
   vpc_subnet_ids         = local.function_configs[each.key].vpc_subnet_ids
   vpc_security_group_ids = local.function_configs[each.key].vpc_security_group_ids
+  lambda_at_edge         = local.function_configs[each.key].lambda_at_edge
 
   # Lambda function permissions:
   create_role           = true

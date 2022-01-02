@@ -14,6 +14,24 @@ locals {
   }
 
   function_configs = {
+    basic-auth = {
+      description = "Performs basic auth for test Cloudfront."
+      environment_variables = {
+        "SSM_PARAM_BASIC_AUTH_USERNAME" = aws_ssm_parameter.basic_auth_username.name
+        "SSM_PARAM_BASIC_AUTH_PASSWORD" = aws_ssm_parameter.basic_auth_password.name
+      }
+      layers                 = ["ssm-access"]
+      vpc_subnet_ids         = []
+      vpc_security_group_ids = []
+      lambda_at_edge         = true
+      policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
+      version = {
+        dev  = 1 # Autodeploys to latest Lambda version.
+        test = 1 # Autodeploys to latest Lambda version.
+        prod = 1
+      }
+    }
+
     get-bucket-list-items = {
       description = "Fetches bucket list items from DynamoDB."
       environment_variables = {
@@ -22,6 +40,7 @@ locals {
       layers                 = []
       vpc_subnet_ids         = []
       vpc_security_group_ids = []
+      lambda_at_edge         = false
       policies               = [aws_iam_policy.lambda_iam_policy_dynamodb.arn]
       version = {
         dev  = 3 # Autodeploys to latest Lambda version.
@@ -38,6 +57,7 @@ locals {
       layers                 = []
       vpc_subnet_ids         = []
       vpc_security_group_ids = []
+      lambda_at_edge         = false
       policies               = [aws_iam_policy.lambda_iam_policy_dynamodb.arn]
       version = {
         dev  = 3 # Autodeploys to latest Lambda version.
@@ -58,6 +78,7 @@ locals {
       layers                 = ["ssm-access", "web-request"]
       vpc_subnet_ids         = var.vpc_private_subnet_ids
       vpc_security_group_ids = [var.vpc_default_security_group_id]
+      lambda_at_edge         = false
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
       version = {
         dev  = 2
@@ -75,6 +96,7 @@ locals {
       layers                 = ["ssm-access", "web-request"]
       vpc_subnet_ids         = var.vpc_private_subnet_ids
       vpc_security_group_ids = [var.vpc_default_security_group_id]
+      lambda_at_edge         = false
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
       version = {
         dev  = 3

@@ -1,3 +1,31 @@
+resource "aws_ssm_parameter" "basic_auth_username" {
+  name        = "/${var.domain_name}/api/basic_auth/username"
+  description = "Basic auth username."
+  type        = "SecureString"
+  value       = "default_value"
+  overwrite   = false
+  tags        = local.tags
+
+  lifecycle {
+    ignore_changes  = [value]
+    prevent_destroy = true
+  }
+}
+
+resource "aws_ssm_parameter" "basic_auth_password" {
+  name        = "/${var.domain_name}/api/basic_auth/password"
+  description = "Basic auth password."
+  type        = "SecureString"
+  value       = "default_value"
+  overwrite   = false
+  tags        = local.tags
+
+  lifecycle {
+    ignore_changes  = [value]
+    prevent_destroy = true
+  }
+}
+
 resource "aws_ssm_parameter" "spotify_client_id" {
   name        = "/${var.domain_name}/api/spotify/client_id"
   description = "Spotify API client ID."
