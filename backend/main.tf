@@ -35,3 +35,19 @@ module "cognito" {
   domain_name           = var.domain_name
   public_hosted_zone_id = var.public_hosted_zone_id
 }
+
+module "sns" {
+  source = "./sns"
+  env    = "shared"
+
+  project_name = var.project_name
+  domain_name  = var.domain_name
+}
+
+module "event_bridge" {
+  source = "./event_bridge"
+  env    = "shared"
+
+  project_name = var.project_name
+  domain_name  = var.domain_name
+}

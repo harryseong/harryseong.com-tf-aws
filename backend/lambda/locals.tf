@@ -11,6 +11,7 @@ locals {
   layer_configs = {
     ssm-access  = { description = "For fetching SSM parameter store values." }
     web-request = { description = "For making external API calls." }
+    sns-access  = { description = "For publishing messages to SNS topic." }
   }
 
   function_configs = {
@@ -81,8 +82,8 @@ locals {
       lambda_at_edge         = false
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
       version = {
-        dev  = 2
-        test = 2
+        dev  = 2 # Autodeploys to latest Lambda version.
+        test = 2 # Autodeploys to latest Lambda version.
         prod = 2
       }
     }
@@ -99,9 +100,27 @@ locals {
       lambda_at_edge         = false
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
       version = {
-        dev  = 3
-        test = 3
+        dev  = 3 # Autodeploys to latest Lambda version.
+        test = 3 # Autodeploys to latest Lambda version.
         prod = 3
+      }
+    }
+
+    daily-weather-updates = {
+      description = "Fetches current weather from OpenWeatherMap API to send daily."
+      environment_variables = {
+        "OPEN_WEATHER_MAP_API_URL_WEATHER"  = "https://api.openweathermap.org/data/2.5/weather"
+        "SSM_PARAM_OPEN_WEATHER_MAP_APP_ID" = aws_ssm_parameter.open_weather_map_app_id.name
+      }
+      layers                 = ["ssm-access", "web-request", "sns-access"]
+      vpc_subnet_ids         = var.vpc_private_subnet_ids
+      vpc_security_group_ids = [var.vpc_default_security_group_id]
+      lambda_at_edge         = false
+      policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn, aws_iam_policy.lambda_iam_policy_sns.arn]
+      version = {
+        dev  = 9 # Autodeploys to latest Lambda version.
+        test = 9 # Autodeploys to latest Lambda version.
+        prod = 9
       }
     }
   }

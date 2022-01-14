@@ -54,3 +54,24 @@ resource "aws_iam_policy" "lambda_iam_policy_dynamodb" {
 }
 EOF
 }
+
+resource "aws_iam_policy" "lambda_iam_policy_sns" {
+  name        = "${var.project_name}-lambda-sns-access-${data.aws_region.current.name}"
+  description = "Lambda policy to publish messages to sns topic."
+  tags        = local.tags
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sns:Publish"
+            ],
+            "Resource": "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
+        }
+    ]
+}
+EOF
+}
