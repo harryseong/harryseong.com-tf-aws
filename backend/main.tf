@@ -1,7 +1,6 @@
 module "api_gateway" {
-  source = "./api_gateway"
-  env    = "api"
-
+  source                      = "./api_gateway"
+  env                         = "api"
   project_name                = var.project_name
   domain_name                 = var.domain_name
   public_hosted_zone_id       = var.public_hosted_zone_id
@@ -11,9 +10,8 @@ module "api_gateway" {
 }
 
 module "lambda" {
-  source = "./lambda"
-  env    = "api"
-
+  source                        = "./lambda"
+  env                           = "api"
   project_name                  = var.project_name
   domain_name                   = var.domain_name
   vpc_default_security_group_id = var.vpc_default_security_group_id
@@ -21,33 +19,36 @@ module "lambda" {
 }
 
 module "dynamodb" {
-  source = "./dynamodb"
-  env    = "shared"
-
+  source       = "./dynamodb"
+  env          = "shared"
   project_name = var.project_name
 }
 
 module "cognito" {
-  source = "./cognito"
-  env    = "shared"
-
+  source                = "./cognito"
+  env                   = "shared"
   project_name          = var.project_name
   domain_name           = var.domain_name
   public_hosted_zone_id = var.public_hosted_zone_id
 }
 
 module "sns" {
-  source = "./sns"
-  env    = "shared"
-
+  source       = "./sns"
+  env          = "shared"
   project_name = var.project_name
   domain_name  = var.domain_name
 }
 
 module "event_bridge" {
-  source = "./event_bridge"
-  env    = "shared"
+  source       = "./event_bridge"
+  env          = "shared"
+  project_name = var.project_name
+  domain_name  = var.domain_name
+}
 
+module "ecr" {
+  source       = "./ecr"
+  env          = "shared"
   project_name = var.project_name
   domain_name  = var.domain_name
 }
