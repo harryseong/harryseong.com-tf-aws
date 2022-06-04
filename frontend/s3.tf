@@ -20,7 +20,7 @@ module "webapp_s3_bucket" {
   website = {
     index_document = "index.html"
     error_document = "index.html"
-    routing_rules  = null
+    routing_rules  = []
   }
 }
 
