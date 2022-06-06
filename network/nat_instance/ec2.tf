@@ -23,7 +23,6 @@ module "nat_instance" {
 
   tags = {
     Name        = "nat-instance-${count.index + 1}"
-    Terraform   = "true"
     Environment = var.env
   }
 }
