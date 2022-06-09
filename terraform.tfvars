@@ -22,6 +22,6 @@ vpc_configs = {
 
 subnet_configs = {
   azs                  = ["a", "b"]
-  private_subnet_cidrs = ["10.0.0.0/24", "10.0.3.0/24"]
+  private_subnet_cidrs = ["10.0.0.0/24"]
   public_subnet_cidrs  = ["10.0.1.0/24"]
 }
