@@ -3,15 +3,37 @@ const axios = require('/opt/nodejs/node_modules/axios');
 const qs = require('/opt/nodejs/node_modules/querystring');
 const ssmAccess = require('/opt/nodejs/ssm-access');
 
-exports.handler = async (event, context) => {
-    // Fetch Spotify parameters from SSM parameter store.
-    const [ID, SECRET, REFRESH_TOKEN] = [
-        process.env.SSM_PARAM_SPOTIFY_CLIENT_ID,
-        process.env.SSM_PARAM_SPOTIFY_CLIENT_SECRET,
-        process.env.SSM_PARAM_SPOTIFY_CLIENT_REFRESH_TOKEN
-    ];
+const [ID, SECRET, REFRESH_TOKEN] = [
+    process.env.SSM_PARAM_SPOTIFY_CLIENT_ID,
+    process.env.SSM_PARAM_SPOTIFY_CLIENT_SECRET,
+    process.env.SSM_PARAM_SPOTIFY_CLIENT_REFRESH_TOKEN
+];
+let spotifyClientId, spotifyClientSecret, spotifyClientRefreshToken;
 
-    let spotifyClientId, spotifyClientSecret, spotifyClientRefreshToken;
+exports.handler = async (event, context) => {
+
+    // Fetch Spotify parameters from SSM parameter store if not cached yet.
+    if (spotifyClientId === undefined || 
+        spotifyClientSecret === undefined || 
+        spotifyClientRefreshToken === undefined) {
+        console.log("Spotify parameters not available from cache; fetching from SSM Param Store.")
+        await getSpotifyParameters();
+    } else {
+        console.log("Spotify parameters already available from cache.")
+    }
+
+    // Fetch Spotify access token and use to fetch currently playing Spotify song.
+    return await getSpotifyAccessToken(spotifyClientId, spotifyClientSecret, spotifyClientRefreshToken)
+        .then(accessToken => {
+            return getSpotifyCurrentSong(accessToken);
+        }).catch(error => {
+            console.error(error.trace);
+            return error;
+        });
+};
+
+// Fetch Spotify parameters from SSM parameter store.
+const getSpotifyParameters = async () => {
     await ssmAccess.getParameters([ID, SECRET, REFRESH_TOKEN], true)
         .then(params => {
             params.forEach(param => {
@@ -28,16 +50,7 @@ exports.handler = async (event, context) => {
                 }
             });
         });
-
-    // Fetch Spotify access token and use to fetch currently playing Spotify song.
-    return await getSpotifyAccessToken(spotifyClientId, spotifyClientSecret, spotifyClientRefreshToken)
-        .then(accessToken => {
-            return getSpotifyCurrentSong(accessToken);
-        }).catch(error => {
-            console.error(error.trace);
-            return error;
-        });
-};
+}
 
 // Fetch Spotify access token.
 const getSpotifyAccessToken = async (spotifyClientId, spotifyClientSecret, spotifyClientRefreshToken) => {

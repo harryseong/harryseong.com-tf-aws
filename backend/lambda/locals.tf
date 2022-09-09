@@ -83,7 +83,7 @@ locals {
       version = {
         dev  = 2 # Autodeploys to latest Lambda version.
         test = 2 # Autodeploys to latest Lambda version.
-        prod = 2
+        prod = 10
       }
     }
 
@@ -101,27 +101,9 @@ locals {
       version = {
         dev  = 8 # Autodeploys to latest Lambda version.
         test = 8 # Autodeploys to latest Lambda version.
-        prod = 8
+        prod = 9
       }
     }
-
-    # daily-weather-updates = {
-    #   description = "Fetches current weather from OpenWeatherMap API to send daily."
-    #   environment_variables = {
-    #     "OPEN_WEATHER_MAP_API_URL_WEATHER"  = "https://api.openweathermap.org/data/2.5/weather"
-    #     "SSM_PARAM_OPEN_WEATHER_MAP_APP_ID" = aws_ssm_parameter.open_weather_map_app_id.name
-    #   }
-    #   layers                 = ["ssm-access", "web-request", "sns-access"]
-    #   vpc_subnet_ids         = var.vpc_private_subnet_ids
-    #   vpc_security_group_ids = [var.vpc_default_security_group_id]
-    #   lambda_at_edge         = false
-    #   policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn, aws_iam_policy.lambda_iam_policy_sns.arn]
-    #   version = {
-    #     dev  = 9 # Autodeploys to latest Lambda version.
-    #     test = 9 # Autodeploys to latest Lambda version.
-    #     prod = 9
-    #   }
-    # }
   }
 
   output_type = "zip"
