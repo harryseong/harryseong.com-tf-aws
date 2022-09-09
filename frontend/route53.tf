@@ -28,3 +28,20 @@ module "route53_record_cloudfront" {
     }] : []
   )
 }
+
+module "route53_record_azure" {
+  source  = "terraform-aws-modules/route53/aws//modules/records"
+  version = "2.3.0"
+  create  = var.env == "prod"
+
+  private_zone = false
+  zone_id      = var.public_hosted_zone_id
+  records = [
+    {
+      name    = "azure"
+      type    = "CNAME"
+      records = ["harryseong.z13.web.core.windows.net"]
+      ttl     = 300
+    }
+  ]
+}
