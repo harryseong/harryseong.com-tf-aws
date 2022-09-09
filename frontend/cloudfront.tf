@@ -1,6 +1,6 @@
 module "cloudfront" {
   source              = "terraform-aws-modules/cloudfront/aws"
-  version             = "2.8.0"
+  version             = "2.9.3"
   create_distribution = true
 
   comment             = "CloudFront for ${local.webapp_url} webapp."
@@ -30,6 +30,12 @@ module "cloudfront" {
     compress               = true
 
     allowed_methods = ["GET", "HEAD"]
+
+    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6" # CachingOptimized
+    origin_request_policy_id   = "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf" # CORS-S3Origin
+    response_headers_policy_id = "eaab4381-ed33-4a86-88ca-d9558dc6cd63" # CORS-with-preflight-and-SecurityHeadersPolicy
+
+    use_forwarded_values = false
   }
 
   viewer_certificate = {
