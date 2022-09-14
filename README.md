@@ -1,4 +1,4 @@
-# harryseong.com-tf
+# harryseong.com-tf-aws
 
 ## Manual Steps:
 1. [AWS Management Console: Route53] Setup a registered public domain.
