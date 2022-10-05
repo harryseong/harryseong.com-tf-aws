@@ -22,6 +22,12 @@ module "api_gateway" {
   }
 
   integrations = {
+    "GET /v1/example" = {
+      lambda_arn             = var.lambda_functions["example"]
+      payload_format_version = "2.0"
+      timeout_milliseconds   = 12000
+      credentials_arn        = aws_iam_role.api-gateway-lambda-execution-role.arn
+    }
     "GET /v1/places" = {
       lambda_arn             = var.lambda_functions["get-places"]
       payload_format_version = "2.0"
@@ -72,7 +78,6 @@ resource "aws_apigatewayv2_api_mapping" "api_mapping" {
   domain_name     = module.api_gateway.apigatewayv2_domain_name_id
   stage           = each.key
   api_mapping_key = each.key
-
 }
 
 resource "aws_apigatewayv2_authorizer" "jwt_authorizer" {

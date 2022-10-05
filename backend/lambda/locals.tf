@@ -14,6 +14,21 @@ locals {
   }
 
   function_configs = {
+    example = {
+      description = "Returns example response with provided name."
+      environment_variables  = {}
+      layers                 = []
+      vpc_subnet_ids         = []
+      vpc_security_group_ids = []
+      lambda_at_edge         = false
+      policies               = []
+      version = {
+        dev  = 1 # Autodeploys to latest Lambda version.
+        test = 1 # Autodeploys to latest Lambda version.
+        prod = 1
+      }
+    }
+
     basic-auth = {
       description = "Performs basic auth for test Cloudfront."
       environment_variables = {
