@@ -28,7 +28,7 @@ resource "aws_codebuild_project" "codebuild_project" {
 
     environment_variable {
       name  = "ENVIRONMENT_FILE"
-      value = "environment.deploy.ts"
+      value = var.env == "dev" ? "environment.ts" : format("environment.%s.ts", var.env)
     }
   }
 
