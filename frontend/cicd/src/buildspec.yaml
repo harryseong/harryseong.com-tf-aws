@@ -15,9 +15,10 @@ phases:
         - MAPBOX_ACCESS_TOKEN=$(aws ssm get-parameter --name "/harryseong.com/angular/$ENVIRONMENT/mapbox-access-token" --with-decryption --query "Parameter.Value" --output text)
         - echo Fetching AWS API key from SSM...
         - AWS_API_KEY=$(aws ssm get-parameter --name "/harryseong.com/angular/$ENVIRONMENT/aws-api-key" --with-decryption --query "Parameter.Value" --output text)
-        - echo updating "$ENVIRONMENT_FILE" file with proper environment values...
-        - sed -i "s/MAPBOX_ACCESS_TOKEN/$MAPBOX_ACCESS_TOKEN/g" "src/environments/$ENVIRONMENT_FILE"
-        - sed -i "s/AWS_API_KEY/$AWS_API_KEY/g" "src/environments/$ENVIRONMENT_FILE"
+        - echo updating "$ENVIRONMENT_FILE" file with specified environment values...
+        - sed -i "s/VAR_MAPBOX_ACCESS_TOKEN/$MAPBOX_ACCESS_TOKEN/g" "src/environments/$ENVIRONMENT_FILE"
+        - sed -i "s/VAR_AWS_API_KEY/$AWS_API_KEY/g" "src/environments/$ENVIRONMENT_FILE"
+        - sed -i "s/VAR_ENV/$ENVIRONMENT/g" "src/environments/$ENVIRONMENT_FILE"
   build:
     commands:
         - echo Build started for environment...
