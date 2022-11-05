@@ -6,7 +6,7 @@ module "webapp_s3_bucket" {
   tags          = local.tags
 
   versioning = {
-    enabled = true
+    enabled = false
   }
 
   server_side_encryption_configuration = {
