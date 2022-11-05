@@ -5,8 +5,20 @@ module "webapp_s3_bucket" {
   bucket        = local.webapp_url
   tags          = local.tags
 
+  lifecycle_rule = [
+    {
+      id                                     = "Permanently delete noncurrent object versions."
+      enabled                                = true
+      abort_incomplete_multipart_upload_days = 1
+
+      noncurrent_version_expiration = {
+        days = 15
+      }
+    }
+  ]
+
   versioning = {
-    enabled = false
+    enabled = true
   }
 
   server_side_encryption_configuration = {
