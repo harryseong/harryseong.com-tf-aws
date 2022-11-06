@@ -6,6 +6,18 @@ module "codepipeline_artifacts_s3_bucket" {
   acl           = "private"
   tags          = local.tags
 
+  lifecycle_rule = [
+    {
+      id                                     = "Permanently delete noncurrent object versions."
+      enabled                                = true
+      abort_incomplete_multipart_upload_days = 1
+
+      noncurrent_version_expiration = {
+        days = 1
+      }
+    }
+  ]
+
   server_side_encryption_configuration = {
     rule = {
       apply_server_side_encryption_by_default = {

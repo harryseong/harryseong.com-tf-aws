@@ -12,7 +12,7 @@ module "webapp_s3_bucket" {
       abort_incomplete_multipart_upload_days = 1
 
       noncurrent_version_expiration = {
-        days = 15
+        days = 1
       }
     }
   ]
