@@ -8,7 +8,7 @@ nat_instance_ec2_configs = {
   monitoring    = false
 
   create_spot_instance      = true
-  spot_price                = "0.045"
+  spot_price                = "0.070"
   spot_type                 = "persistent"
   spot_wait_for_fulfillment = true
 }

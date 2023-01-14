@@ -42,5 +42,24 @@ locals {
         }
       ]
     }
+
+    recipes = {
+      create_table   = false
+      hash_key       = "item_id"
+      range_key      = "priority"
+      billing_mode   = "PROVISIONED"
+      read_capacity  = 5
+      write_capacity = 1
+      attributes = [
+        {
+          name = "item_id"
+          type = "N"
+        },
+        {
+          name = "priority"
+          type = "N"
+        }
+      ]
+    }
   }
 }
