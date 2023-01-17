@@ -3,12 +3,12 @@ domain_name  = "harryseong.com"
 
 nat_instance_ec2_configs = {
   ami_id        = "ami-070801f9b4d12d5dc"
-  instance_type = "t2.micro"
+  instance_type = "t3.nano"
   key_name      = "nat-instance-key-pair"
   monitoring    = false
 
   create_spot_instance      = true
-  spot_price                = "0.070"
+  spot_price                = "0.035"
   spot_type                 = "persistent"
   spot_wait_for_fulfillment = true
 }
