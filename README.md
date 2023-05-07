@@ -17,3 +17,9 @@
     - (APIs & Services > Credentials > OAuth 2.0 Client IDs > Authorized redirect URIs)
 
 10. Run "terraform apply".
+
+
+## Manual Steps - After NAT Spot Instance Replacement:
+1. Run "terraform apply".
+
+2. [AWS Management Console: EC2] Disable NAT instance (EC2 spot instance) source/destinaton check (due to current Terraform limitations with spot instances).
