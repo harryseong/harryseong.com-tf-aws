@@ -14,7 +14,7 @@ module "nat_instance" {
   instance_type          = var.ec2_configs.instance_type
   iam_instance_profile   = aws_iam_instance_profile.nat_instance_profile.name
   key_name               = var.ec2_configs.key_name
-  source_dest_check      = true
+  source_dest_check      = false
   monitoring             = var.ec2_configs.monitoring
   vpc_security_group_ids = [aws_security_group.nat_instance_sg.id]
   subnet_id              = var.public_subnets_ids[count.index % length(var.public_subnets_ids)]
