@@ -18,7 +18,14 @@ module "api_gateway" {
   cors_configuration = {
     allow_headers = ["content-type", "x-amz-date", "authorization", "x-api-key", "x-amz-security-token", "x-amz-user-agent"]
     allow_methods = ["GET", "OPTIONS"]
-    allow_origins = ["https://test.harryseong.com", "https://harryseong.com", "https://www.harryseong.com", "http://localhost:4200", "http://localhost:3000"]
+    allow_origins = [
+      "https://test.harryseong.com", 
+      "https://harryseong.com", 
+      "https://www.harryseong.com", 
+      "http://react.harryseong.com",
+      "http://localhost:4200", 
+      "http://localhost:3000"
+    ]
   }
 
   integrations = {
