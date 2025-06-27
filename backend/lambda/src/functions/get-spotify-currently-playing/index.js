@@ -1,7 +1,7 @@
 'use strict';
 const axios = require('/opt/nodejs/node_modules/axios');
 const qs = require('/opt/nodejs/node_modules/querystring');
-const ssmAccess = require('/opt/nodejs/ssm-access');
+const {getParameters} = require('/opt/nodejs/ssm-access');
 
 const [ID, SECRET, REFRESH_TOKEN] = [
     process.env.SSM_PARAM_SPOTIFY_CLIENT_ID,
@@ -34,7 +34,7 @@ exports.handler = async (event, context) => {
 
 // Fetch Spotify parameters from SSM parameter store.
 const getSpotifyParameters = async () => {
-    await ssmAccess.getParameters([ID, SECRET, REFRESH_TOKEN], true)
+    await getParameters([ID, SECRET, REFRESH_TOKEN], true)
         .then(params => {
             params.forEach(param => {
                 switch (param.Name) {

@@ -15,7 +15,7 @@ locals {
 
   function_configs = {
     example = {
-      description = "Returns example response with provided name."
+      description            = "Returns example response with provided name."
       environment_variables  = {}
       layers                 = []
       vpc_subnet_ids         = []
@@ -91,8 +91,8 @@ locals {
         "SSM_PARAM_SPOTIFY_CLIENT_SECRET"        = aws_ssm_parameter.spotify_client_secret.name
       }
       layers                 = ["ssm-access", "web-request"]
-      vpc_subnet_ids         = var.vpc_private_subnet_ids
-      vpc_security_group_ids = [var.vpc_default_security_group_id]
+      vpc_subnet_ids         = []
+      vpc_security_group_ids = []
       lambda_at_edge         = false
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
       version = {
@@ -109,8 +109,8 @@ locals {
         "SSM_PARAM_OPEN_WEATHER_MAP_APP_ID" = aws_ssm_parameter.open_weather_map_app_id.name
       }
       layers                 = ["ssm-access", "web-request"]
-      vpc_subnet_ids         = var.vpc_private_subnet_ids
-      vpc_security_group_ids = [var.vpc_default_security_group_id]
+      vpc_subnet_ids         = []
+      vpc_security_group_ids = []
       lambda_at_edge         = false
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
       version = {

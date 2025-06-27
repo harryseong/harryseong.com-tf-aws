@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "lambda_iam_policy_ssm_params" {
-  name        = "${var.project_name}-lambda-ssm-params-access-${data.aws_region.current.name}"
+  name        = "${var.project_name}-lambda-ssm-params-access-${data.aws_region.current.region}"
   description = "Lambda policy to fetch SSM Parameter store values and KMS decrypt."
   tags        = local.tags
 
@@ -12,7 +12,7 @@ resource "aws_iam_policy" "lambda_iam_policy_ssm_params" {
             "Action": [
                 "kms:Decrypt"
             ],
-            "Resource": "arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"
+            "Resource": "arn:aws:kms:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:key/*"
         },
         {
             "Effect": "Allow",
@@ -29,7 +29,7 @@ EOF
 }
 
 resource "aws_iam_policy" "lambda_iam_policy_dynamodb" {
-  name        = "${var.project_name}-lambda-dynamodb-access-${data.aws_region.current.name}"
+  name        = "${var.project_name}-lambda-dynamodb-access-${data.aws_region.current.region}"
   description = "Lambda policy to access DynamoDB."
   tags        = local.tags
 
@@ -56,7 +56,7 @@ EOF
 }
 
 resource "aws_iam_policy" "lambda_iam_policy_sns" {
-  name        = "${var.project_name}-lambda-sns-access-${data.aws_region.current.name}"
+  name        = "${var.project_name}-lambda-sns-access-${data.aws_region.current.region}"
   description = "Lambda policy to publish messages to sns topic."
   tags        = local.tags
 
@@ -69,7 +69,7 @@ resource "aws_iam_policy" "lambda_iam_policy_sns" {
             "Action": [
                 "sns:Publish"
             ],
-            "Resource": "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
+            "Resource": "arn:aws:sns:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:*"
         }
     ]
 }

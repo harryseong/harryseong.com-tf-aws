@@ -1,6 +1,6 @@
 'use strict';
 const axios = require('/opt/nodejs/node_modules/axios');
-const ssmAccess = require('/opt/nodejs/ssm-access');
+const {getParameter} = require('/opt/nodejs/ssm-access');
 
 let appid;
 
@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
 
 const getOpenWeatherMapParameter = async () => {
     // Fetch Open Weather Map parameter from SSM parameter store.
-    appid = await ssmAccess.getParameter(process.env.SSM_PARAM_OPEN_WEATHER_MAP_APP_ID, true)
+    appid = await getParameter(process.env.SSM_PARAM_OPEN_WEATHER_MAP_APP_ID, true)
         .then(param => { return param.Value });
 }
 

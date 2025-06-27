@@ -2,7 +2,7 @@ module "lambda_s3_bucket" {
   source        = "terraform-aws-modules/s3-bucket/aws"
   create_bucket = true
   force_destroy = true
-  bucket        = "lambda-${local.api_url}-${data.aws_region.current.name}"
+  bucket        = "lambda-${local.api_url}-${data.aws_region.current.region}"
   acl           = "private"
   tags          = local.tags
 
@@ -31,7 +31,7 @@ module "lambda_s3_bucket" {
   }
 }
 
-resource "aws_s3_bucket_object" "lambda_layer_s3_object" {
+resource "aws_s3_object" "lambda_layer_s3_object" {
   for_each = toset(keys(local.layer_configs))
 
   bucket      = module.lambda_s3_bucket.s3_bucket_id
@@ -42,7 +42,7 @@ resource "aws_s3_bucket_object" "lambda_layer_s3_object" {
   tags        = local.tags
 }
 
-resource "aws_s3_bucket_object" "lambda_function_s3_object" {
+resource "aws_s3_object" "lambda_function_s3_object" {
   for_each = toset(keys(local.function_configs))
 
   bucket      = module.lambda_s3_bucket.s3_bucket_id

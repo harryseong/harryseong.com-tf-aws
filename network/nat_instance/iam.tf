@@ -1,11 +1,11 @@
 resource "aws_iam_instance_profile" "nat_instance_profile" {
-  name = "nat-instance-profile-${data.aws_region.current.name}"
+  name = "nat-instance-profile-${data.aws_region.current.region}"
   role = aws_iam_role.nat_instance_iam_role.name
   tags = local.tags
 }
 
 resource "aws_iam_role" "nat_instance_iam_role" {
-  name        = "nat-instance-profile-${data.aws_region.current.name}"
+  name        = "nat-instance-profile-${data.aws_region.current.region}"
   description = "NAT EC2 instance profile to perform required EC2 actions."
   path        = "/"
   tags        = local.tags
@@ -27,7 +27,7 @@ EOF
 }
 
 resource "aws_iam_policy" "nat_instance_iam_policy_ec2" {
-  name        = "nat-instance-ec2-action-${data.aws_region.current.name}"
+  name        = "nat-instance-ec2-action-${data.aws_region.current.region}"
   description = "NAT EC2 instance policy to perform required EC2 actions."
   tags        = local.tags
 

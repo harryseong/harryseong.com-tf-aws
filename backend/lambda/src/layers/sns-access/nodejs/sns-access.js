@@ -1,5 +1,7 @@
-const AWS = require("aws-sdk");
-const sns = new AWS.SNS({region: 'us-east-1'});
+const { SNS } = require('@aws-sdk/client-sns');
+const sns = new SNS({
+    region: 'us-east-1'
+});
 
 const publishMessage = async (message) => {
     var params = {
@@ -7,7 +9,7 @@ const publishMessage = async (message) => {
         TopicArn: 'arn:aws:sns:us-east-1:552566233886:weather-updates-topic'
     };
 
-    return await sns.publish(params).promise()
+    return await sns.publish(params)
         .then(rsp => {
             console.log('Message successfully published to SNS topic');
             return message;

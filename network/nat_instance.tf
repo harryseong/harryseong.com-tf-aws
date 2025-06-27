@@ -1,5 +1,5 @@
 module "nat_instance" {
-  count  = 1
+  count  = 0 # No NAT instance needed anymore.
   source = "./nat_instance"
   env    = var.env
 

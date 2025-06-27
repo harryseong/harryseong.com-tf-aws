@@ -4,5 +4,5 @@ resource "aws_route" "private_route_table_route_01" {
 
   route_table_id         = var.private_route_table_ids[count.index]
   destination_cidr_block = "0.0.0.0/0"
-  instance_id            = module.nat_instance[0].spot_instance_id
+  network_interface_id   = module.nat_instance[0].primary_network_interface_id
 }

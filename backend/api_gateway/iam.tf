@@ -1,5 +1,5 @@
 resource "aws_iam_role" "api-gateway-lambda-execution-role" {
-  name        = "${var.project_name}-api-gateway-lambda-execution-role-${data.aws_region.current.name}"
+  name        = "${var.project_name}-api-gateway-lambda-execution-role-${data.aws_region.current.region}"
   description = "API Gateway role to invoke Lambda functions."
   tags        = local.tags
 
@@ -23,7 +23,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "api-gateway-lambda-execution-policy" {
-  name = "${var.project_name}-api-gateway-lambda-execution-policy-${data.aws_region.current.name}"
+  name = "${var.project_name}-api-gateway-lambda-execution-policy-${data.aws_region.current.region}"
   role = aws_iam_role.api-gateway-lambda-execution-role.name
 
   policy = <<EOF

@@ -7,7 +7,7 @@ module "prod_app_vpc" {
   enable_vpn_gateway          = var.vpc_configs.enable_vpn_gateway
   default_security_group_tags = { "Name" = "default" }
 
-  azs                 = [for az in var.subnet_configs.azs : format("%s%s", data.aws_region.current.name, az)]
+  azs                 = [for az in var.subnet_configs.azs : format("%s%s", data.aws_region.current.region, az)]
   private_subnets     = var.subnet_configs.private_subnet_cidrs
   private_subnet_tags = { "Tier" = "private" }
   public_subnets      = var.subnet_configs.public_subnet_cidrs

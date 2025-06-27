@@ -1,7 +1,7 @@
 module "nat_instance" {
   count   = 1
   source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "3.2.0"
+  version = "6.0.0"
 
   name = "nat-instance-${count.index + 1}"
 

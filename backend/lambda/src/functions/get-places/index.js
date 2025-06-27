@@ -1,10 +1,10 @@
-'use strict';
-const AWS = require('aws-sdk');
-AWS.config.update({ region: process.env.AWS_REGION });
+'use strict';;
+const { DynamoDBDocument } = require('@aws-sdk/lib-dynamodb');
+const { DynamoDB } = require('@aws-sdk/client-dynamodb');
 
 exports.handler = async (event) => {
 
-    const docClient = new AWS.DynamoDB.DocumentClient();
+    const docClient = DynamoDBDocument.from(new DynamoDB());
 
     const params = {
         TableName: process.env.DYNAMODB_TABLE,
@@ -12,7 +12,7 @@ exports.handler = async (event) => {
 
     try {
         console.log('Querying all places.');
-        const data = await docClient.scan(params).promise();
+        const data = await docClient.scan(params);
         console.log(`Count: ${data.Count}, Scanned Count: ${data.ScannedCount}`);
         return data.Items;
     } catch (error) {

@@ -1,17 +1,23 @@
 module "lambda_layer" {
   for_each     = toset(keys(local.layer_configs))
   source       = "terraform-aws-modules/lambda/aws"
+  version      = "8.0.0"
   create_layer = true
 
   layer_name          = each.key
   description         = local.layer_configs[each.key].description
-  compatible_runtimes = ["nodejs14.x"]
+  compatible_runtimes = ["nodejs22.x"]
+
+  # source_path = "./backend/lambda/src/layers/${each.key}/nodejs/"
+  # store_on_s3 = true
+  # s3_bucket   = module.lambda_s3_bucket.s3_bucket_id
 
   create_package = false
+
   s3_existing_package = {
     bucket     = module.lambda_s3_bucket.s3_bucket_id
-    key        = aws_s3_bucket_object.lambda_layer_s3_object[each.key].id
-    version_id = aws_s3_bucket_object.lambda_layer_s3_object[each.key].version_id
+    key        = aws_s3_object.lambda_layer_s3_object[each.key].id
+    version_id = aws_s3_object.lambda_layer_s3_object[each.key].version_id
   }
   tags = local.tags
 }
@@ -19,21 +25,22 @@ module "lambda_layer" {
 module "lambda_function" {
   for_each        = toset(keys(local.function_configs))
   source          = "terraform-aws-modules/lambda/aws"
+  version         = "8.0.0"
   create_function = true
   publish         = true
 
   create_package = false
   s3_existing_package = {
     bucket     = module.lambda_s3_bucket.s3_bucket_id
-    key        = aws_s3_bucket_object.lambda_function_s3_object[each.key].id
-    version_id = aws_s3_bucket_object.lambda_function_s3_object[each.key].version_id
+    key        = aws_s3_object.lambda_function_s3_object[each.key].id
+    version_id = aws_s3_object.lambda_function_s3_object[each.key].version_id
   }
 
   # Lambda function configs:
   function_name          = each.key
   description            = local.function_configs[each.key].description
   handler                = "index.handler"
-  runtime                = "nodejs14.x"
+  runtime                = "nodejs22.x"
   environment_variables  = local.function_configs[each.key].environment_variables
   layers                 = [for layer_name in local.function_configs[each.key].layers : module.lambda_layer[layer_name].lambda_layer_arn]
   vpc_subnet_ids         = local.function_configs[each.key].vpc_subnet_ids
@@ -42,7 +49,7 @@ module "lambda_function" {
 
   # Lambda function permissions:
   create_role           = true
-  role_name             = "${var.project_name}-lambda-role-${each.key}-${data.aws_region.current.name}"
+  role_name             = "${var.project_name}-lambda-role-${each.key}-${data.aws_region.current.region}"
   role_description      = "Lambda function execution role."
   attach_network_policy = true
   attach_policies       = true
