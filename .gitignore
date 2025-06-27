@@ -1,5 +1,5 @@
 .terraform
 .terraform.lock.hcl
 *.tfstate*
-*.zip
+**/*.zip
 **/.DS_Store
