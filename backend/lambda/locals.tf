@@ -114,9 +114,9 @@ locals {
       lambda_at_edge         = false
       policies               = [aws_iam_policy.lambda_iam_policy_ssm_params.arn]
       version = {
-        dev  = 8 # Autodeploys to latest Lambda version.
-        test = 8 # Autodeploys to latest Lambda version.
-        prod = 9
+        dev  = 25 # Autodeploys to latest Lambda version.
+        test = 25 # Autodeploys to latest Lambda version.
+        prod = 25
       }
     }
   }

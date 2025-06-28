@@ -5,6 +5,11 @@ module "webapp_s3_bucket" {
   bucket        = local.webapp_url
   tags          = local.tags
 
+  block_public_policy     = false
+  block_public_acls       = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+
   lifecycle_rule = [
     {
       id                                     = "Permanently delete noncurrent object versions."
